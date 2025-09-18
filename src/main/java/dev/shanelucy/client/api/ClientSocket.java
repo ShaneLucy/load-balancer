@@ -1,7 +1,15 @@
 package dev.shanelucy.client.api;
 
-public interface Client {
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.UUID;
+
+public interface ClientSocket {
+  int port();
+
   int queueSize();
 
-  int port();
+  UUID id();
+
+  ServerSocket serverSocket() throws IOException;
 }

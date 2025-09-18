@@ -1,11 +1,12 @@
 package dev.shanelucy.server.api;
 
-import java.util.List;
+import java.util.UUID;
 
-public interface MockServer {
+public interface Server {
 
-    String host();
+  String host();
 
-    int port();
+  int port();
 
+  UUID id();
 }
