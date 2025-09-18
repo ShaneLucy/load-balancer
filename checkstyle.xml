@@ -367,8 +367,5 @@
         <module name="LocalFinalVariableName"/>
         <module name="FinalClass"/>
         <module name="FinalParameters"/>
-
-        <!-- package-info.java -->
-        <module name="JavadocPackage"/>
     </module>
 </module>
