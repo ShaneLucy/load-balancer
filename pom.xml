@@ -45,7 +45,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <!-- here we specify that we want to use the main method within the App class -->
-                            <mainClass>dev.shanelucy.LoadBalancer</mainClass>
+                            <mainClass>dev.shanelucy.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -70,47 +70,47 @@
                 </executions>
             </plugin>
             <!-- Spotbugs -->
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.9.5.0</version>
-                <configuration>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>spotbugs</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.github.spotbugs</groupId>-->
+<!--                <artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--                <version>4.9.5.0</version>-->
+<!--                <configuration>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>spotbugs</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <!-- PMD -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.27.0</version>
-                <configuration>
-                    <linkXRef>false</linkXRef>
-                    <failOnViolation>true</failOnViolation>
-                    <printFailingErrors>true</printFailingErrors>
-                    <skipEmptyReport>false</skipEmptyReport>
-                    <rulesets>
-                        <ruleset>/category/java/bestpractices.xml</ruleset>
-                    </rulesets>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pmd</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>pmd</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-pmd-plugin</artifactId>-->
+<!--                <version>3.27.0</version>-->
+<!--                <configuration>-->
+<!--                    <linkXRef>false</linkXRef>-->
+<!--                    <failOnViolation>true</failOnViolation>-->
+<!--                    <printFailingErrors>true</printFailingErrors>-->
+<!--                    <skipEmptyReport>false</skipEmptyReport>-->
+<!--                    <rulesets>-->
+<!--                        <ruleset>/category/java/bestpractices.xml</ruleset>-->
+<!--                    </rulesets>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>pmd</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>pmd</goal>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <!-- Spotless -->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>

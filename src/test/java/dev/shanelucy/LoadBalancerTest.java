@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LoadBalancerTest {
-  private LoadBalancer loadBalancer;
+  private Main loadBalancer;
 
   @BeforeEach
   void setUp() {
-    loadBalancer = new LoadBalancer();
+    loadBalancer = new Main();
   }
 
   @Test
