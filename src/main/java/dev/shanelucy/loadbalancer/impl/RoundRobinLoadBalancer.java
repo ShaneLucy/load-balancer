@@ -1,20 +1,19 @@
 package dev.shanelucy.loadbalancer.impl;
 
 import dev.shanelucy.loadbalancer.api.LoadBalancer;
-import dev.shanelucy.node.api.Node;
-import java.util.ArrayList;
+import dev.shanelucy.node.api.ServerNode;
 import java.util.List;
 
 public final class RoundRobinLoadBalancer implements LoadBalancer {
-  private final List<Node> serverNodes;
+  private final List<ServerNode> serverNodes;
   private int requestCount = 0;
 
-  public RoundRobinLoadBalancer(final List<Node> serverNodes) {
-    this.serverNodes = new ArrayList<>(serverNodes);
+  public RoundRobinLoadBalancer(final List<ServerNode> serverNodes) {
+    this.serverNodes = List.of(serverNodes.toArray(new ServerNode[0]));
   }
 
   @Override
-  public Node loadBalance() {
+  public ServerNode loadBalance() {
     final var serverNode = serverNodes.get(requestCount % serverNodes.size());
     System.out.println(serverNode.id());
     requestCount += 1;

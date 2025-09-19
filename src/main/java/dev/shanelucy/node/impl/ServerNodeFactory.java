@@ -1,12 +1,25 @@
 package dev.shanelucy.node.impl;
 
-import dev.shanelucy.node.model.ServerNode;
-import java.util.UUID;
+import dev.shanelucy.node.api.ServerNode;
+import java.io.IOException;
 
-public class ServerNodeFactory extends NodeFactory {
+public abstract class ServerNodeFactory {
 
-  @Override
-  protected ServerNode createNode(int port, String host) {
-    return new ServerNode(port, host, UUID.randomUUID());
+  /**
+   * Creates ClientSocket.
+   *
+   * @param port client port
+   * @param host client host
+   * @return Any ClientSocket implementation
+   */
+  public ServerNode create(final int port, final String host) throws IOException {
+    final var serverNode = createNode(port, host);
+    System.out.println(
+        String.format(
+            "server node: %s created with host: %s and port: %s",
+            serverNode.id(), serverNode.host(), serverNode.port()));
+    return serverNode;
   }
+
+  protected abstract ServerNode createNode(int port, String host) throws IOException;
 }

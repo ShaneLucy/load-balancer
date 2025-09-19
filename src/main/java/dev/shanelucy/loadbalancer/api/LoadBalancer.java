@@ -1,8 +1,8 @@
 package dev.shanelucy.loadbalancer.api;
 
-import dev.shanelucy.node.api.Node;
+import dev.shanelucy.node.api.ServerNode;
 
 public interface LoadBalancer {
 
-  Node loadBalance();
+  ServerNode loadBalance();
 }

@@ -1,16 +1,12 @@
 package dev.shanelucy.node.api;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.UUID;
 
-public interface Node {
+public sealed interface Node permits ClientNode, ServerNode {
 
   int port();
 
   String host();
 
   UUID id();
-
-  Socket socket() throws IOException;
 }
