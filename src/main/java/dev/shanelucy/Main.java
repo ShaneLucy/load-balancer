@@ -2,7 +2,7 @@ package dev.shanelucy;
 
 import dev.shanelucy.handler.impl.Handler;
 import dev.shanelucy.handler.impl.datahandler.BasicDataHandlerFactory;
-import dev.shanelucy.loadbalancer.impl.RoundRobinLoadBalancer;
+import dev.shanelucy.loadbalancer.impl.roundrobin.RoundRobinLoadBalancerFactory;
 import dev.shanelucy.node.api.ServerNode;
 import dev.shanelucy.node.impl.NetCatClientNodeFactory;
 import dev.shanelucy.node.impl.NetCatServerNodeFactory;
@@ -15,6 +15,7 @@ public final class Main {
     final var clientNodeFactory = new NetCatClientNodeFactory();
     final var serverNodeFactory = new NetCatServerNodeFactory();
     final var dataHandlerFactory = new BasicDataHandlerFactory();
+    final var loadBalancerFactory = new RoundRobinLoadBalancerFactory();
 
     final var client = clientNodeFactory.create(3000, "localhost");
     final List<ServerNode> serverNodes =
@@ -24,7 +25,7 @@ public final class Main {
             serverNodeFactory.create(8082, "localhost"));
     final var dataHandler = dataHandlerFactory.create();
 
-    final var roundRobinLoadBalancer = new RoundRobinLoadBalancer(serverNodes);
+    final var roundRobinLoadBalancer = loadBalancerFactory.create(serverNodes);
 
     final var handler = new Handler(client, roundRobinLoadBalancer, dataHandler);
     handler.run();

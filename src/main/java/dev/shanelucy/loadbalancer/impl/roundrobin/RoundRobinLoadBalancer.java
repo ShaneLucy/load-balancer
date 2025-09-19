@@ -1,5 +1,6 @@
-package dev.shanelucy.loadbalancer.impl;
+package dev.shanelucy.loadbalancer.impl.roundrobin;
 
+import dev.shanelucy.exceptions.MissingServerNodesException;
 import dev.shanelucy.loadbalancer.api.LoadBalancer;
 import dev.shanelucy.node.api.ServerNode;
 import java.util.List;
@@ -13,6 +14,9 @@ public final class RoundRobinLoadBalancer implements LoadBalancer {
   private int requestCount = 0;
 
   public RoundRobinLoadBalancer(final List<ServerNode> serverNodes) {
+    if (serverNodes.isEmpty()) {
+      throw new MissingServerNodesException("Empty list of server nodes supplied to load balancer");
+    }
     this.serverNodes = List.of(serverNodes.toArray(new ServerNode[0]));
   }
 
@@ -21,9 +25,18 @@ public final class RoundRobinLoadBalancer implements LoadBalancer {
     LOGGER.atInfo().log("Determining server to distribute next request to");
     final var serverNode = serverNodes.get(requestCount % serverNodes.size());
 
-    requestCount += 1;
+    setRequestCount(requestCount += 1);
     LOGGER.atInfo().log(
         "Picked server: {}:{} with ID: {}", serverNode.host(), serverNode.port(), serverNode.id());
     return serverNode;
+  }
+
+  private void setRequestCount(final int requestCount) {
+    if (this.requestCount == Integer.MAX_VALUE) {
+      this.requestCount = 0;
+      return;
+    }
+
+    this.requestCount = requestCount;
   }
 }
