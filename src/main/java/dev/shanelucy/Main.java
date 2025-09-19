@@ -1,11 +1,11 @@
 package dev.shanelucy;
 
-import dev.shanelucy.handler.impl.Handler;
 import dev.shanelucy.handler.impl.datahandler.BasicDataHandlerFactory;
 import dev.shanelucy.loadbalancer.impl.roundrobin.RoundRobinLoadBalancerFactory;
 import dev.shanelucy.node.api.ServerNode;
 import dev.shanelucy.node.impl.NetCatClientNodeFactory;
 import dev.shanelucy.node.impl.NetCatServerNodeFactory;
+import dev.shanelucy.proxy.impl.bidirectionalproxy.BiDirectionalProxyFactory;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,8 +16,9 @@ public final class Main {
     final var serverNodeFactory = new NetCatServerNodeFactory();
     final var dataHandlerFactory = new BasicDataHandlerFactory();
     final var loadBalancerFactory = new RoundRobinLoadBalancerFactory();
+    final var proxyFactory = new BiDirectionalProxyFactory();
 
-    final var client = clientNodeFactory.create(3000, "localhost");
+    final var clientNode = clientNodeFactory.create(3000, "localhost");
     final List<ServerNode> serverNodes =
         List.of(
             serverNodeFactory.create(8080, "localhost"),
@@ -27,14 +28,9 @@ public final class Main {
 
     final var roundRobinLoadBalancer = loadBalancerFactory.create(serverNodes);
 
+    final var proxy = proxyFactory.create(clientNode, roundRobinLoadBalancer, dataHandler);
     while (true) {
-      try (final var serverSocket = client.serverSocket()) {
-        final var clientSocket = serverSocket.accept();
-        final var handler = new Handler(clientSocket, roundRobinLoadBalancer, dataHandler);
-        handler.run();
-      } catch (final IOException e) {
-        throw new IOException(e);
-      }
+      proxy.proxyRequest();
     }
   }
 }

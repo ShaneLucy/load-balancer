@@ -1,7 +1,9 @@
-package dev.shanelucy.handler.impl;
+package dev.shanelucy.proxy.impl.bidirectionalproxy;
 
 import dev.shanelucy.handler.api.DataHandler;
 import dev.shanelucy.loadbalancer.api.LoadBalancer;
+import dev.shanelucy.node.api.ClientNode;
+import dev.shanelucy.proxy.api.Proxy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,29 +15,32 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class Handler implements Runnable {
+public final class BiDirectionalProxy implements Proxy {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Handler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(BiDirectionalProxy.class);
   private final LoadBalancer loadBalancer;
   private final DataHandler dataHandler;
-  private final Socket clientSocket;
+  private final ClientNode clientNode;
 
-  public Handler(
-      final Socket clientSocket, final LoadBalancer loadBalancer, final DataHandler dataHandler) {
-    this.clientSocket = clientSocket;
+  public BiDirectionalProxy(
+      final ClientNode clientNode, final LoadBalancer loadBalancer, final DataHandler dataHandler) {
+    this.clientNode = clientNode;
     this.loadBalancer = loadBalancer;
     this.dataHandler = dataHandler;
   }
 
   @Override
-  public void run() {
+  public void proxyRequest() {
     final var serverNode = loadBalancer.loadBalance();
     final InputStream clientInputStream;
     final OutputStream clientOutputStream;
     final InputStream serverInputStream;
     final OutputStream serverOutputStream;
     final ExecutorService executorService;
-    try (final var serverSocket = new Socket(serverNode.host(), serverNode.port())) {
+
+    try (final var serverSocket = new Socket(serverNode.host(), serverNode.port());
+        final var clientServerSocket = clientNode.serverSocket();
+        final var clientSocket = clientServerSocket.accept()) {
       clientInputStream = clientSocket.getInputStream();
       clientOutputStream = clientSocket.getOutputStream();
       serverInputStream = serverSocket.getInputStream();
