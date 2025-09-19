@@ -1,4 +1,4 @@
-package dev.shanelucy.handler.impl.datahandler;
+package dev.shanelucy.handler.impl;
 
 import dev.shanelucy.handler.api.DataHandler;
 import org.slf4j.Logger;
