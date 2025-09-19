@@ -5,8 +5,6 @@ import dev.shanelucy.loadbalancer.api.LoadBalancer;
 import dev.shanelucy.node.api.ClientNode;
 import dev.shanelucy.proxy.api.Proxy;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -32,21 +30,14 @@ public final class BiDirectionalProxy implements Proxy {
   @Override
   public void proxyRequest() {
     final var serverNode = loadBalancer.loadBalance();
-    final InputStream clientInputStream;
-    final OutputStream clientOutputStream;
-    final InputStream serverInputStream;
-    final OutputStream serverOutputStream;
-    final ExecutorService executorService;
-
     try (final var serverSocket = serverNode.socket();
         final var clientServerSocket = clientNode.serverSocket();
-        final var clientSocket = clientServerSocket.accept()) {
-      clientInputStream = clientSocket.getInputStream();
-      clientOutputStream = clientSocket.getOutputStream();
-      serverInputStream = serverSocket.getInputStream();
-      serverOutputStream = serverSocket.getOutputStream();
-      executorService = Executors.newFixedThreadPool(2);
-
+        final var clientSocket = clientServerSocket.accept();
+        final var clientInputStream = clientSocket.getInputStream();
+        final var clientOutputStream = clientSocket.getOutputStream();
+        final var serverInputStream = serverSocket.getInputStream();
+        final var serverOutputStream = serverSocket.getOutputStream();
+        final var executorService = Executors.newFixedThreadPool(2); ) {
       final var clientDataFuture =
           createFuture(
               executorService,
