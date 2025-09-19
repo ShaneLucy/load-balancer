@@ -38,7 +38,7 @@ public final class BiDirectionalProxy implements Proxy {
     final OutputStream serverOutputStream;
     final ExecutorService executorService;
 
-    try (final var serverSocket = new Socket(serverNode.host(), serverNode.port());
+    try (final var serverSocket = serverNode.socket();
         final var clientServerSocket = clientNode.serverSocket();
         final var clientSocket = clientServerSocket.accept()) {
       clientInputStream = clientSocket.getInputStream();
