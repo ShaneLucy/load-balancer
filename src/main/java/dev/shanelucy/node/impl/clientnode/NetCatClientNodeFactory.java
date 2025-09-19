@@ -1,4 +1,4 @@
-package dev.shanelucy.node.impl;
+package dev.shanelucy.node.impl.clientnode;
 
 import dev.shanelucy.node.model.NetCatClientNode;
 import java.util.UUID;

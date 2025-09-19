@@ -1,4 +1,4 @@
-package dev.shanelucy.node.impl;
+package dev.shanelucy.node.impl.servernode;
 
 import dev.shanelucy.node.api.ServerNode;
 import java.io.IOException;
