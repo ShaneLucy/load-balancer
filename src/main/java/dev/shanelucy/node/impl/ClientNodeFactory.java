@@ -2,8 +2,12 @@ package dev.shanelucy.node.impl;
 
 import dev.shanelucy.node.api.ClientNode;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ClientNodeFactory {
+
+  private final Logger logger = LoggerFactory.getLogger(ClientNodeFactory.class);
 
   /**
    * Creates ClientSocket.
@@ -14,10 +18,12 @@ public abstract class ClientNodeFactory {
    */
   public ClientNode create(final int port, final String host) throws IOException {
     final var clientNode = createNode(port, host);
-    System.out.println(
-        String.format(
-            "client node: %s created with host: %s and port: %s",
-            clientNode.id(), clientNode.host(), clientNode.port()));
+    logger.atInfo().log(
+        "Client node: {} crated with host: {} and port: {}",
+        clientNode.id(),
+        clientNode.host(),
+        clientNode.port());
+
     return clientNode;
   }
 

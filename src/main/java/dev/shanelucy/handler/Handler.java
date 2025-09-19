@@ -5,9 +5,12 @@ import dev.shanelucy.node.api.ClientNode;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Handler implements Runnable {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Handler.class);
   private final ClientNode clientNode;
   private final LoadBalancer loadBalancer;
 
@@ -21,7 +24,10 @@ public final class Handler implements Runnable {
     final ServerSocket clientServerSocket;
     try {
       clientServerSocket = clientNode.serverSocket();
-    } catch (IOException e) {
+    } catch (final IOException e) {
+      LOGGER
+          .atError()
+          .log("IO exception encountered trying to create client socket: {}", e.getMessage(), e);
       throw new RuntimeException(e);
     }
 
@@ -46,8 +52,8 @@ public final class Handler implements Runnable {
             new Thread(() -> DataHandler.pipeData(serverInputStream, clientOutputStream));
 
         serverDataHandler.start();
-      } catch (final Exception io) {
-        System.out.println(io);
+      } catch (final IOException e) {
+        LOGGER.atError().log("IO exception encountered during event loop: {}", e.getMessage(), e);
       }
     }
   }

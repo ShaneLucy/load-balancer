@@ -3,8 +3,12 @@ package dev.shanelucy.loadbalancer.impl;
 import dev.shanelucy.loadbalancer.api.LoadBalancer;
 import dev.shanelucy.node.api.ServerNode;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class RoundRobinLoadBalancer implements LoadBalancer {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RoundRobinLoadBalancer.class);
   private final List<ServerNode> serverNodes;
   private int requestCount = 0;
 
@@ -14,9 +18,12 @@ public final class RoundRobinLoadBalancer implements LoadBalancer {
 
   @Override
   public ServerNode loadBalance() {
+    LOGGER.atInfo().log("Determining server to distribute next request to");
     final var serverNode = serverNodes.get(requestCount % serverNodes.size());
-    System.out.println(serverNode.id());
+
     requestCount += 1;
+    LOGGER.atInfo().log(
+        "Picked server: {}:{} with ID: {}", serverNode.host(), serverNode.port(), serverNode.id());
     return serverNode;
   }
 }
