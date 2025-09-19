@@ -27,8 +27,15 @@ public final class Main {
 
     final var roundRobinLoadBalancer = loadBalancerFactory.create(serverNodes);
 
-    final var handler = new Handler(client, roundRobinLoadBalancer, dataHandler);
-    handler.run();
+    while (true) {
+      try (final var serverSocket = client.serverSocket()) {
+        final var clientSocket = serverSocket.accept();
+        final var handler = new Handler(clientSocket, roundRobinLoadBalancer, dataHandler);
+        handler.run();
+      } catch (final IOException e) {
+        throw new IOException(e);
+      }
+    }
   }
 
   public int add(final int a, final int b) {
