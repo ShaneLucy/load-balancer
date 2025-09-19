@@ -29,7 +29,7 @@ public final class BiDirectionalProxy implements Proxy {
 
   @Override
   public void proxyRequest() {
-    final var serverNode = loadBalancer.loadBalance();
+    final var serverNode = loadBalancer.getServer();
     try (final var serverSocket = serverNode.socket();
         final var clientServerSocket = clientNode.serverSocket();
         final var clientSocket = clientServerSocket.accept();

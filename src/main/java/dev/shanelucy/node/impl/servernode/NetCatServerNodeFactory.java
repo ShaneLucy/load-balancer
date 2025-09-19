@@ -1,7 +1,6 @@
 package dev.shanelucy.node.impl.servernode;
 
 import dev.shanelucy.node.api.ServerNode;
-import dev.shanelucy.node.model.NetCatServerNode;
 import java.io.IOException;
 import java.util.UUID;
 
