@@ -1,5 +1,6 @@
-package dev.shanelucy.handler;
+package dev.shanelucy.handler.impl;
 
+import dev.shanelucy.handler.api.DataHandler;
 import dev.shanelucy.loadbalancer.api.LoadBalancer;
 import dev.shanelucy.node.api.ClientNode;
 import java.io.IOException;
@@ -13,10 +14,13 @@ public final class Handler implements Runnable {
   private static final Logger LOGGER = LoggerFactory.getLogger(Handler.class);
   private final ClientNode clientNode;
   private final LoadBalancer loadBalancer;
+  private final DataHandler dataHandler;
 
-  public Handler(final ClientNode clientNode, final LoadBalancer loadBalancer) {
+  public Handler(
+      final ClientNode clientNode, final LoadBalancer loadBalancer, final DataHandler dataHandler) {
     this.clientNode = clientNode;
     this.loadBalancer = loadBalancer;
+    this.dataHandler = dataHandler;
   }
 
   @Override
@@ -45,11 +49,11 @@ public final class Handler implements Runnable {
         final var serverOutputStream = serverSocket.getOutputStream();
 
         final Thread clientDataHandler =
-            new Thread(() -> DataHandler.pipeData(clientInputStream, serverOutputStream));
+            new Thread(() -> dataHandler.pipeData(clientInputStream, serverOutputStream));
         clientDataHandler.start();
 
         final Thread serverDataHandler =
-            new Thread(() -> DataHandler.pipeData(serverInputStream, clientOutputStream));
+            new Thread(() -> dataHandler.pipeData(serverInputStream, clientOutputStream));
 
         serverDataHandler.start();
       } catch (final IOException e) {

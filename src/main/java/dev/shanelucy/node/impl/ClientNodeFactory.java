@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class ClientNodeFactory {
 
-  private final Logger logger = LoggerFactory.getLogger(ClientNodeFactory.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * Creates ClientSocket.
