@@ -148,6 +148,14 @@
       </exclusions>
     </dependency>
   </dependencies>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.3</version>
+      </plugin>
+    </plugins>
+  </reporting>
   <properties>
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.source>21</maven.compiler.source>
