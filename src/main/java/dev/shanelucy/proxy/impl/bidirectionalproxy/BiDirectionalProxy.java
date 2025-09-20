@@ -13,6 +13,10 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A {@link Proxy} implementation which allows a client to send data to a server and also allows a
+ * server to send data to a client
+ */
 public final class BiDirectionalProxy implements Proxy {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BiDirectionalProxy.class);
@@ -67,6 +71,16 @@ public final class BiDirectionalProxy implements Proxy {
     }
   }
 
+  /**
+   * Utility method which creates a {@link Future} containing a {@link Runnable} task. When this
+   * task completes it shuts down the socket on the output stream
+   *
+   * @param executorService A {@link java.util.concurrent.Executor} which tracks the progress of a
+   *     specified number of asynchronous tasks
+   * @param task {@link Runnable} the task to run
+   * @param socket {@link Socket} The socket to close when the task completes
+   * @return {@link Future}
+   */
   private Future<?> createFuture(
       final ExecutorService executorService, Runnable task, final Socket socket) {
     return executorService.submit(

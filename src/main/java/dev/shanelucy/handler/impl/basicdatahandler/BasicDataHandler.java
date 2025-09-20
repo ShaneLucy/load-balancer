@@ -1,4 +1,4 @@
-package dev.shanelucy.handler.impl.datahandler;
+package dev.shanelucy.handler.impl.basicdatahandler;
 
 import dev.shanelucy.handler.api.DataHandler;
 import java.io.IOException;
@@ -8,6 +8,10 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A {@link DataHandler} implementation which simply transfers data from an input stream to an
+ * output stream.
+ */
 public final class BasicDataHandler implements DataHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BasicDataHandler.class);

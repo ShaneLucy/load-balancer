@@ -1,4 +1,4 @@
-package dev.shanelucy.handler.impl.datahandler;
+package dev.shanelucy.handler.impl.basicdatahandler;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

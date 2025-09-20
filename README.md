@@ -1,7 +1,7 @@
 # LoadBalancer
 
 A basic layer 4 load balancer, that accepts requests from many clients and distributes these requests among many servers.
-It currently uses a simple round-robin algorithm to select the next available server from a list of servers.   
+It currently uses a simple round-robin algorithm to sequentially select a server from a list of servers.   
 If it detects that a server is no longer available it will remove this server from the list of available servers.
 
 ## Prerequisites 
@@ -48,7 +48,7 @@ Checks source code for coding issues, this application uses the Google rule set,
   - Runs checkstyle, reporting on any violations.
 
 ### Spotbugs
-Checks compiled bytecode for coding issues;
+Checks compiled bytecode for coding issues (requires project to be compiled);
 - `mvn spotbugs:spotbugs`
   - Runs spotbugs, reporting on any violations.
 
@@ -62,7 +62,7 @@ Checks source code for coding issues
 - `mvn clean test`
 
 ## Documentation
-- `mvn javadoc:javadoc`
+- `mvn clean javadoc:javadoc`
   - will generate API documentation which can be accessed from `target/reports/apidocs/index.html`
 
 ## Application Properties
@@ -84,3 +84,4 @@ TODO - fill out after implementing task 10 below
 12. Containerise 
 13. Created a weighted load balancer
 14. Finish writing tests
+15. Create script to  start application and simulate sending requests 

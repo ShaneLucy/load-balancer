@@ -1,6 +1,6 @@
 package dev.shanelucy;
 
-import dev.shanelucy.handler.impl.datahandler.BasicDataHandlerFactory;
+import dev.shanelucy.handler.impl.basicdatahandler.BasicDataHandlerFactory;
 import dev.shanelucy.loadbalancer.impl.roundrobin.RoundRobinLoadBalancerFactory;
 import dev.shanelucy.node.api.ClientNode;
 import dev.shanelucy.node.api.ServerNode;

@@ -11,6 +11,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A {@link LoadBalancer} implementation which sequentially selects a server from the list of
+ * available servers, if a server health status check fails the failing server will be removed from
+ * the list of available servers and a new server will be returned.
+ */
 public final class RoundRobinLoadBalancer implements LoadBalancer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RoundRobinLoadBalancer.class);
@@ -32,11 +37,6 @@ public final class RoundRobinLoadBalancer implements LoadBalancer {
       throw new NoServersAvailableException("No servers available");
     }
 
-    LOGGER.atInfo().log(
-        "request count: {}, server node size: {}, next index: {}",
-        requestCount,
-        serverNodes.size(),
-        requestCount % serverNodes.size());
     var serverNode = serverNodes.get(requestCount % serverNodes.size());
     final var newRequestCount = requestCount += 1;
     setRequestCount(newRequestCount);
@@ -60,7 +60,6 @@ public final class RoundRobinLoadBalancer implements LoadBalancer {
               e.getMessage(),
               e);
       serverNodes.remove(serverNode);
-      LOGGER.atInfo().log("calling getServer again");
       serverNode = getServer();
     }
 

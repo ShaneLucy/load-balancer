@@ -1,5 +1,6 @@
 package dev.shanelucy.exceptions;
 
+/** Signals that no server nodes were configured. */
 public class MissingServerNodesException extends RuntimeException {
   public MissingServerNodesException(final String message) {
     super(message);
